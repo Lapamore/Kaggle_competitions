@@ -1,4 +1,4 @@
-# Соревнование Spaceship Titanic
+# Соревнование Titanic
 
 ## Описание
 Pass
