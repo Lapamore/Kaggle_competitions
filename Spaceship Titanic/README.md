@@ -36,15 +36,15 @@ test_data.head()
 ## Визуализация:
 Прежде чем приступать к подготовке данных, я решил визуализировать имеющуюся информацию, чтобы понять с чем мне предстоит работать.
 
-График распределения возрата:
-![График распределения возрата](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png)
+### График распределения возрата:
+<img src="[ССЫЛКА_НА_ИЗОБРАЖЕНИЕ](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png)" alt="График распределения возрата" width="300" height="200">
 Заметно, что основная часть пассажиров космического корабля находится в возрастной группе от 13 до 38 лет.
 
-График Boxplot
+### График Boxplot
 ![График распределения возрата](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png)
 Анализ графика Boxplot позволяет выявить наличие выбросов в данных столбца "Age". Это нюанс, с которым мы учтем при последующей обработке.
 
-График корреляции:
+### График корреляции:
 ![График распределения возрата](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/corr.png)
 Изучая матрицу корреляции, можно выделить переменные, между которыми наблюдается высокая степень взаимосвязи.
 
