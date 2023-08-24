@@ -50,7 +50,7 @@ test_data.head()
 
 ### График корреляции:
 <div style="text-align: center;">
-    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/сorr.png" alt="График корреляции" width="400" height="400">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/corr.png" alt="График корреляции" width="400" height="400">
 </div>
 Изучая матрицу корреляции, можно выделить переменные, между которыми наблюдается высокая степень взаимосвязи.
 
