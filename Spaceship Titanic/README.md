@@ -44,7 +44,7 @@ test_data.head()
 
 ### График Boxplot
 <div style="text-align: center;">
-    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png" alt="График Boxplot" width="530" height="400">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png" alt="График Boxplot" width="500" height="400">
 </div>
 Анализ графика Boxplot позволяет выявить наличие выбросов в данных столбца "Age". Это нюанс, который мы учтем при последующей обработке.
 
