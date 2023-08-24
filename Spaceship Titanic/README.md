@@ -60,6 +60,10 @@ test_data.head()
 ## Подготовка данных:
 Перед тем, как приступать к обработке данных я создал 4 функции:
 - FeatureEncoder - преобразует категориальные признаки в в числовой формат.
+- drop_features - удаляет ненужные столбцы.
+- fill_value - заполняет пропущенные данные.
+- add_new_feature - добавляет новые столбцы.
+  
 ```python
 def FeatureEncoder(X):
     encoder = OneHotEncoder()
@@ -78,14 +82,14 @@ def FeatureEncoder(X):
 
     return X
 ```
-- drop_features - удаляет ненужные столбцы
+
 ```python
-    def drop_features(X):
-    return X.drop(['Name','Cabin', 'PassengerId', 'Destination', 'HomePlanet', 'Deck'], axis=1 , errors='ignore')
+def drop_features(X):
+    return X.drop(['Name','Cabin', 'PassengerId', 'Destination' 'HomePlanet', 'Deck'], axis=1 , errors='ignore')
 ```
-- fill_value - заполняет пропущенные данные
+
 ```python
-    def fill_value(X):
+def fill_value(X):
     for col in X.columns:
         if X[col].isnull().sum() == 0:
             continue
@@ -95,9 +99,10 @@ def FeatureEncoder(X):
 
         else:
             X[col] = X[col].fillna(X[col].mean())
+    return X
 ```
-- add_new_feature - добавляет новые столбцы
- ```python
+
+```python
 def add_new_feature(X): 
     deck = X['Cabin'].map(lambda x: x.split("/") if isinstance(x, str) else [])
     
@@ -106,32 +111,66 @@ def add_new_feature(X):
     X['Side'] = deck.apply(lambda x: x[2] if len(x) > 0 else None)
     return X
 ```
+Расскажу побробнее, что я использовал в функциях:
+* Одним из наиболее распространённых методов преобразования категориальных признаков является `OneHotEncoding`, который позволяет перевести переменные в числовой формат, при этом избегая ненужной упорядоченности или искажения значений. Именно этот метод я использовал в функции `FeatureEncoder`.
+
+* Я добавил 3 новых столбца: 
+    * Group - Этот столбец указывает на группу, с которой путешествует пассажир. Он поможет выявить связи между пассажирами и определить, какие группы могут иметь больший шанс выживания.
+    * Deck - Введенный столбец "Deck" обозначает палубу, на которой расположен пассажир. Этот аспект может иметь значение для выживаемости, так как некоторые палубы могли быть ближе к спасательным средствам.
+    * Side -  Столбец обозначает сторону корабля, на которой находится пассажир. В некоторых ситуациях определенные стороны могли быть более или менее подвержены опасности, что может повлиять на результат.
+
+**Не добавленный столбец**\
+В свете того, что пассажиры могли путешествовать семьями, я принял решение исследовать, как влияет фактор семейной принадлежности на предсказание модели. Попытка добавить четвертый столбец "family" в модель, к сожалению, не принесла ожидаемого улучшения результатов. Стоит отметить, что также приходилось иметь дело с пропущенными данными в столбце 'Name', которые нельзя было заполнить модой или другими методами. В итоге, было решено не включать эту фичу в функцию `add_new_feature`.
+
+Реализация столбца "family":
+```python
+def AddFamily(X):
+    family = X['Name'].apply(lambda x: x.split(" "))
+    split_names_df = pd.DataFrame([i for i in family], columns=['First Name', 'Last Name'])
+    split_names_df = split_names_df.groupby("Last Name", as_index=False).agg({"First Name": 'count'})
+    split_names_df['Family'] = np.where(split_names_df['First Name'] > 1, 1, 0)
+    
+    family_list_values = []
+    for col in X.Name:
+        value_family = split_names_df['Family'].loc[split_names_df['Last Name'] == col.split(" ")[1]]
+        family_list_values.append(value_family.iloc[0])
+        
+    X['Family'] = family_list_values
+    
+    return X
+```
 
 ## Обработке и предобработка данных для обучения модели:
-### Обработка категориальных признаков
-После того как я провёл предварительную обработку данных, настал момент решения, как эффективно работать с категориальными признаками. Одним из наиболее распространённых методов является OneHotEncoding, который позволяет перевести категориальные переменные в числовой формат, при этом избегая ненужной упорядоченности или искажения значений.
-
-Для применения OneHotEncoding к данным я создал функцию FeatureEncoder, которая автоматизировала этот процесс. Применяя её к train выборке, я смог преобразовать категориальные признаки в бинарные столбцы, что позволило модели учитывать разные категории в независимости друг от друга.
-
-
-
-С учетом сделанных исключений, я сформировал переменную X, включающую в себя dataframe без столбца Survived, который содержит правильные ответы. Вектор правильных ответов (Survived) я поместил в переменную y. Это предоставило мне четкое разделение между входными признаками и целевой переменной, что является фундаментом для дальнейшего построения и обучения модели.
-```python
-X = DropFeatures(train_data)
-y = train['Survived']
-```
-### Масштабирование данных
-Для повышения эффективности обучения модели я применил метод масштабирования данных. Это важный этап предобработки, который позволяет привести все признаки к общему масштабу и диапазону значений. 
-
-Я использовал стандартизацию (StandardScaler) из библиотеки `scikit-learn`, которая масштабирует признаки так, чтобы среднее значение стало равным 0, а стандартное отклонение - 1.
+Следующим этапом было применение всех вышеописанных функцих к train_data.
 
 ```python
-from sklearn.preprocessing import StandardScaler
-
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-y_scaled = y.to_numpy()
+train_data = add_new_feature(train_data)
+train_data = FeatureEncoder(train_data)
+train_data = drop_features(train_data)
 ```
+Кроме того, важно отметить, что обработка пропущенных значений в столбце "Age" была выполнена отдельно в связи с наличием выбросов:
+
+```python
+mean_age = train_data[train_data['Age'] < 61]['Age'].mean()
+train_data['Age'] = train_data['Age'].fillna(mean_age)
+```
+Дополнительные шаги обработки включали:
+```python
+train_data['Side'] = train_data['Side'].map({"P": 1, "S":2})
+
+bool_features = ['CryoSleep', 'VIP', 'Transported']
+for col in bool_features:
+    train_data[col] = train_data[col].map({False:0, True:1})
+```
+После этого я получаю train_data с полной обработкой
+
+С учетом сделанных исключений, я сформировал переменную X, включающую в себя dataframe без столбца Transported, который содержит правильные ответы. Вектор правильных ответов (Transported) я поместил в переменную y. Это предоставило мне четкое разделение между входными признаками и целевой переменной, что является фундаментом для дальнейшего построения и обучения модели.
+
+```python
+X = train_data.drop("Transported", axis=1)
+y = train_data['Transported']
+```
+
 ### Разделение на тренировочную и тестовую выборки
 После всех этапов предобработки данных, следующим шагом было разделение данных на тренировочную и тестовую выборки. Это позволяет оценить качество обучения модели на отложенных данных и проверить, насколько успешно модель будет работать на новых наборах данных.
 
@@ -140,14 +179,12 @@ y_scaled = y.to_numpy()
 ```python
 from sklearn.model_selection import train_test_split
 
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_scaled, test_size=.3, random_state=17) 
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=.3, random_state=17)
 ```
 
 ## Выбор модели:
-Из всех моделей я решил выбрать `RandomForestClassifier`. Мой выбор обусловлен несколькими факторами:
 
-- Во-первых, случайный лес является ансамблевым методом, который объединяет множество деревьев решений для улучшения обобщающей способности модели. Это позволяет избежать переобучения и учесть разнообразие признаков.
-- Во-вторых, случайный лес хорошо справляется с задачами классификации, так как способен обрабатывать как количественные, так и категориальные признаки. Учитывая многообразие данных в задаче предсказания выживаемости, я считаю, что этот метод может дать хорошие результаты.
+Я решил использовать два классификатора - RandomForestClassifier и XGBoost. После проведения экспериментов, XGBoost оказался более эффективным, поэтому я выбрал его в качестве основной модели. Реализацию RandomForestClassifier Вы можете посмотреть в файле 'RandomForestClassifier_model'.
  
 ## Обучение модели
 Для настройки параметров модели и достижения наилучшей производительности, я применил метод `GridSearchCV`. Этот метод позволяет обучать модель на кросс-валидации, автоматически перебирая различные комбинации заданных параметров.
@@ -155,47 +192,53 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_scaled, test_siz
 В результате, переменная с наилучшими параметрами модели будет создана автоматически. Это позволяет упростить и ускорить процесс поиска наиболее оптимальных параметров для данной выборки данных.
 
 ```python
-clf = RandomForestClassifier(random_state=17)
+clf = xgb.XGBClassifier(objective='binary:logistic', random_state=17)
 
-params = {
-    'n_estimators':[10, 100, 200, 500, 600],
-    'max_depth':[None, 5, 10],
-    "min_samples_split": [2, 3 ,4],
+param_grid = {
+    'n_estimators': [100, 200, 300],             # Number of trees
+    'learning_rate': [0.01, 0.1, 0.2],           # Learning rate (gradient descent step)
+    'max_depth': [3, 6, 9],                      # Maximum tree depth
+    'min_child_weight': [1, 3, 5],               # Minimum sum of child weights in a node
+    'subsample': [0.8, 1.0],                     # Fraction of subsample to train each tree
+    'colsample_bytree': [0.8, 1.0],              # Fraction of features when building each tree
+    'gamma': [0, 0.1, 0.2],                      # Minimum reduction in loss function to make splitting
+    'reg_alpha': [0, 0.1, 0.5],                  # L1 regularization on tree leaf weights
+    'reg_lambda': [0, 0.1, 0.5],                 # L2 regularization on tree leaf weights
+    'scale_pos_weight': [1, 2, 3]                # Balancing class weights in case of unbalanced data
 }
-
-search = GridSearchCV(clf, params, cv=3, scoring='accuracy')
-search.fit(X_train, y_train)
-
-best_model = search.best_estimator_
-best_model.score(X_test, y_test)
+grid_search = GridSearchCV(clf, param_grid, cv=3, scoring='accuracy')
+grid_search.fit(X_train, y_train)
+best_model = grid_search.best_estimator_
 ```
-Accuracy на X_test и y_test = 0.802
+```python
+grid_search.score(X_test, y_test) # accuracy = 0.8006
+```
 
 ## Предсказание
-Пройдя через все этапы обработки и настройки модели, я перешел к фазе предсказания. Для этого использовал обученную модель с наилучшими параметрами.
+Пройдя через все этапы обработки (для test_data провелась вся та же процедура, что и для train_data) и настройки модели, я перешел к фазе предсказания. Для этого использовал обученную модель с наилучшими параметрами.
 
 ```python
-pred = best_model.predict(X_data_final_test)
+predicted_values = best_model.predict(test_data)
 ```
 
-После выполнения предсказаний, я создал dataframe, где каждому человеку предсказано, выживет ли он или нет. Это позволило оценить, какие пассажиры, возможно, имеют больший шанс выжить на основе разработанной модели.
+После выполнения предсказаний, я создал dataframe, где каждому человеку предсказано, какие пассажиры были затронуты аномалией, а какие нет.
 
 ```python
-df_pred = pd.DataFrame(test['PassengerId'])
-df_pred['Survived'] = pred 
-df_pred.to_csv("predictions/Titanic prediction.csv", index=False)
+predicted_values = pd.Series(predicted_values).map({1:True, 0:False})
+predict_data = pd.DataFrame({"PassengerId":passenger_id,"Transported":predicted_values})
+predict_data.to_csv("Predict_proba Xgboost.csv", index=False)
 ```
 
 ## Оценка и результаты
-Следующим этапом работы стала загрузка `Titanic prediction.csv` на платформу Kaggle, где я оценил точность своей модели предсказания на тестовой выборке.
+Следующим этапом работы стала загрузка `Predict_proba Xgboost.csv` на платформу Kaggle, где я оценил точность своей модели предсказания на тестовой выборке.
 
-![Accuracy](https://github.com/Lapamore/Kaggle_competitions/blob/main/Titanic/img/score_2.png?raw=true)
+![Accuracy](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/XgBoost.png)
 
 После загрузки предсказаний на платформу Kaggle, я получил оценку точности моей модели на основе метрики, предоставленной в задаче. Это позволило мне понять, насколько успешно моя модель обобщает данные и делает предсказания на новых данных.
 
-![Место в таблице](https://github.com/Lapamore/Kaggle_competitions/blob/main/Titanic/img/score.png?raw=true)
+![Место в таблице](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/XgBoost%20table.jpg)
 
-Этот этап закрывает мой проект и дает понимание того, насколько успешно моя модель справляется с задачей предсказания выживаемости на "Титанике".
+Этот этап закрывает мой проект и дает понимание того, насколько успешно моя модель справляется с задачей предсказания.
 
 ## Заключение
-На этом этапе я заканчиваю свое описание решения поставленной задачи. Хотелось бы подчеркнуть, что именно это соревнование помогло мне разобраться со многими недопониманиями. Надеюсь, что Вы оцените мое решение. Спасибо!
+Это соревнование стало для меня вторым в мире Kaggle. С каждой попыткой я старался перегнать свой предыдущий резульат. Я считаю, что достиг хорошего результата для начала своего пути. Спасибо за прочтение!
