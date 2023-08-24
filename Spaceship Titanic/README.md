@@ -38,7 +38,7 @@ test_data.head()
 
 ### График распределения возрата:
 <div style="text-align: center;">
-    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png" alt="График распределения возрата" width="600" height="500">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png" alt="График распределения возрата" width="700" height="500">
 </div>
 Заметно, что основная часть пассажиров космического корабля находится в возрастной группе от 13 до 38 лет.
 
