@@ -38,15 +38,15 @@ test_data.head()
 
 ### График распределения возрата:
 <div style="text-align: center;">
-    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png" alt="График распределения возрата" width="400" height="400">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png" alt="График распределения возрата" width="550" height="400">
 </div>
 Заметно, что основная часть пассажиров космического корабля находится в возрастной группе от 13 до 38 лет.
 
 ### График Boxplot
 <div style="text-align: center;">
-    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png" alt="График Boxplot" width="400" height="400">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png" alt="График Boxplot" width="550" height="400">
 </div>
-Анализ графика Boxplot позволяет выявить наличие выбросов в данных столбца "Age". Это нюанс, с которым мы учтем при последующей обработке.
+Анализ графика Boxplot позволяет выявить наличие выбросов в данных столбца "Age". Это нюанс, который мы учтем при последующей обработке.
 
 ### График корреляции:
 <div style="text-align: center;">
