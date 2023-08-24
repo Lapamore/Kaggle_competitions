@@ -80,11 +80,11 @@ def FeatureEncoder(X):
 ```
 - drop_features - удаляет ненужные столбцы
 ```python
-def drop_features(X):
+    def drop_features(X):
     return X.drop(['Name','Cabin', 'PassengerId', 'Destination', 'HomePlanet', 'Deck'], axis=1 , errors='ignore')
 ```
 - fill_value - заполняет пропущенные данные
-  ```python
+```python
     def fill_value(X):
     for col in X.columns:
         if X[col].isnull().sum() == 0:
@@ -95,7 +95,7 @@ def drop_features(X):
 
         else:
             X[col] = X[col].fillna(X[col].mean())
-    ```
+```
 - add_new_feature - добавляет новые столбцы
  ```python
 def add_new_feature(X): 
