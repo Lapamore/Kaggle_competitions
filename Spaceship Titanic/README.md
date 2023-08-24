@@ -44,13 +44,13 @@ test_data.head()
 
 ### График Boxplot
 <div style="text-align: center;">
-    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png" alt="График Boxplot" width="550" height="400">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png" alt="График Boxplot" width="530" height="400">
 </div>
 Анализ графика Boxplot позволяет выявить наличие выбросов в данных столбца "Age". Это нюанс, который мы учтем при последующей обработке.
 
 ### График корреляции:
 <div style="text-align: center;">
-    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/corr.png" alt="График корреляции" width="400" height="400">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/corr.png" alt="График корреляции" width="530" height="400">
 </div>
 Изучая матрицу корреляции, можно выделить переменные, между которыми наблюдается высокая степень взаимосвязи.
 
