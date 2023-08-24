@@ -60,10 +60,6 @@ test_data.head()
 ## Подготовка данных:
 Перед тем, как приступать к обработке данных я создал 4 функции:
 - FeatureEncoder - преобразует категориальные признаки в в числовой формат.
-- drop_features - удаляет ненужные столбцы
-- fill_value - заполняет пропущенные данные
-- add_new_feature - добавляет новые столбцы
-  
 ```python
 def FeatureEncoder(X):
     encoder = OneHotEncoder()
@@ -82,14 +78,14 @@ def FeatureEncoder(X):
 
     return X
 ```
-
+- drop_features - удаляет ненужные столбцы
 ```python
 def drop_features(X):
     return X.drop(['Name','Cabin', 'PassengerId', 'Destination', 'HomePlanet', 'Deck'], axis=1 , errors='ignore')
 ```
-
-```python
-def fill_value(X):
+- fill_value - заполняет пропущенные данные
+  ```python
+    def fill_value(X):
     for col in X.columns:
         if X[col].isnull().sum() == 0:
             continue
@@ -99,9 +95,9 @@ def fill_value(X):
 
         else:
             X[col] = X[col].fillna(X[col].mean())
-```
-
-```python
+    ```
+- add_new_feature - добавляет новые столбцы
+ ```python
 def add_new_feature(X): 
     deck = X['Cabin'].map(lambda x: x.split("/") if isinstance(x, str) else [])
     
