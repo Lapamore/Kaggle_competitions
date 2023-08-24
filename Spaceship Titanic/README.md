@@ -43,11 +43,15 @@ test_data.head()
 Заметно, что основная часть пассажиров космического корабля находится в возрастной группе от 13 до 38 лет.
 
 ### График Boxplot
-![График распределения возрата](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png)
+<div style="text-align: center;">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/boxplot.png" alt="График Boxplot" width="700" height="400">
+</div>
 Анализ графика Boxplot позволяет выявить наличие выбросов в данных столбца "Age". Это нюанс, с которым мы учтем при последующей обработке.
 
 ### График корреляции:
-![График распределения возрата](https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/corr.png)
+<div style="text-align: center;">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/сorr.png" alt="График корреляции" width="700" height="400">
+</div>
 Изучая матрицу корреляции, можно выделить переменные, между которыми наблюдается высокая степень взаимосвязи.
 
 ## Подготовка данных:
