@@ -37,7 +37,9 @@ test_data.head()
 Прежде чем приступать к подготовке данных, я решил визуализировать имеющуюся информацию, чтобы понять с чем мне предстоит работать.
 
 ### График распределения возрата:
-<img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png" alt="График распределения возрата" width="300" height="200">
+<div style="text-align: center;">
+    <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Spaceship%20Titanic/img/hist.png" alt="График распределения возрата" width="600" height="500">
+</div>
 Заметно, что основная часть пассажиров космического корабля находится в возрастной группе от 13 до 38 лет.
 
 ### График Boxplot
