@@ -50,8 +50,10 @@ criterion = nn.CrossEntropyLoss().to(device=device)
 ```
 
 ## Результаты обучения
-![Accuracy](https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Обучение.png)
-![Loss](https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Потери.png)
+<div align="center">
+  <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Обучение.png" alt="График обучения" width="400"/>
+  <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Потери.png" alt="График потерь" width="400"/>
+</div>
 
 ## Результат инференса
 ![Predict](https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Предсказания.png)
