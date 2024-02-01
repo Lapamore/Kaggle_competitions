@@ -20,5 +20,5 @@
 
 ## Результат обучения
 <div align="center">
-  <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Traffic%20Signs%20Detection%20(YOLO%20v8)/runs/results.png" alt="Метрики" width="500"/>
+  <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Traffic%20Signs%20Detection%20(YOLO%20v8)/runs/results.png" alt="Метрики" width="1000"/>
 </div>
