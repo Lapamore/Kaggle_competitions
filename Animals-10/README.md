@@ -17,3 +17,9 @@
 ## Ссылка на Kaggle
 
 Вы можете найти датасет на Kaggle по следующей ссылке: [Animals10 Dataset](https://www.kaggle.com/datasets/alessiocorrado99/animals10/data)
+
+## Результат инференса
+<div align="center">
+  <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Animals-10/inference.png" alt="Инференс" width="500"/>
+</div>
+
