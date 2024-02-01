@@ -17,22 +17,3 @@ for folder in tqdm(classes):
         os.rename(last_name, new_name)
 
 print('Все файлы переименованы')
-
-# # Создание директории и перемещение файлов
-# if not os.path.isdir('data/imgs'):
-#     os.mkdir(path + 'imgs')
-
-# new_path = 'data/imgs'
-
-# # Создание CSV файла и запись меток
-# with open('labels.csv', 'w', newline='') as file:
-#     writer = csv.writer(file)
-#     field = ["name", "label"]
-#     writer.writerow(field)
-#     for index, folder in enumerate(os.listdir(path)):
-#         for name_img in os.listdir(os.path.join(path, folder)):
-#             name, _ = os.path.splitext(name_img)
-#             writer.writerow([name, index])
-#             shutil.move(os.path.join(path, folder, name_img), os.path.join(new_path, name_img))
-
-# print(f'Все файлы были перемещены в {new_path}!')
