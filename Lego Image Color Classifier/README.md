@@ -57,5 +57,5 @@ criterion = nn.CrossEntropyLoss().to(device=device)
 
 ## Результат инференса
 <div align="center">
-  <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Предсказания.png" alt="График предсказаний" width="800"/>
+  <img src="https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Предсказания.png" alt="График предсказаний" width="500"/>
 </div>
