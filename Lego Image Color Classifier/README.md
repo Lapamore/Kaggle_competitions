@@ -47,3 +47,11 @@ model = LegoColorNet().to(device=device)
 # Пример определения потерь и оптимизатора (можно настроить в соответствии с задачей)
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
 criterion = nn.CrossEntropyLoss().to(device=device)
+```
+
+## Результаты обучения
+![Accuracy](https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Обучение.png)
+![Loss](https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Потери.png)
+
+## Результат инференса
+![Predict](https://github.com/Lapamore/Kaggle_competitions/blob/main/Lego%20Image%20Color%20Classifier/results/Предсказания.png)
